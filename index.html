@@ -83,6 +83,7 @@ body { background:#0a1a0a; font-family:'Courier New', monospace; overflow:hidden
   <button onclick="location.reload()">もう一度</button>
 </div>
 <script>
+document.addEventListener('DOMContentLoaded',function(){
 var audioCtx=null,bgmRunning=false,bgmLoop=null;
 function initAudio(){if(audioCtx)return;audioCtx=new(window.AudioContext||window.webkitAudioContext)();}
 function playNote(freq,start,dur,vol,type){
@@ -196,12 +197,14 @@ document.getElementById(‘btnRest’).addEventListener(‘touchstart’, functi
 document.getElementById(‘btnBoost’).addEventListener(‘touchstart’,function(e){e.preventDefault();doBoost();},{passive:false});
 
 // タイトル画面のキャラカードをtouchstartでも反応させる（iOS対策）
+document.addEventListener(‘DOMContentLoaded’,function(){
 document.querySelectorAll(’.char-card’).forEach(function(card){
 card.addEventListener(‘touchstart’,function(e){
 e.preventDefault();
 var key=card.getAttribute(‘data-key’);
 if(key)startGame(key);
 },{passive:false});
+});
 });
 
 function doRest(){if(!game||game.resting||game.gameOver)return;game.resting=true;game.restTimer=80;showMsg(‘💤 休憩中…’);}
@@ -260,8 +263,7 @@ bears:[],bearTimer:300,
 particles:[],
 bumpCooldown:0,
 finishOrder:[],frame:0,
-missiles:[],
-talkerTimer:0,
+missiles:[]
 };
 document.getElementById(‘charName’).textContent=pc.emoji+’ ’+pc.name;
 updateUI();startBGM();requestAnimationFrame(loop);
@@ -846,6 +848,7 @@ var msgEl=document.getElementById(‘message’);
 if(g.msgTimer>0){msgEl.style.opacity=Math.min(1,g.msgTimer/30);msgEl.textContent=g.msgText;}
 else msgEl.style.opacity=0;
 }
+}); // DOMContentLoaded
 </script>
 
 </body>
